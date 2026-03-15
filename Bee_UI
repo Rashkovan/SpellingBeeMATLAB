@@ -2,6 +2,15 @@
 %% PROPERTIES — UI containers and components
 %% All handles stored here so callbacks can reach them
 
+function fig = buildUI() %% I think this is how it would start 
+ 
+        fig = uifigure( ...
+            'Name',     'Spelling Bee', ...
+            'Position', [80 80 FIG_W FIG_H], ...
+            'Resize',   'off', ...
+            'Tag',      'SpellingBeeFig');
+
+
   %% bee design with go here 
 
   %% rules would go here 
