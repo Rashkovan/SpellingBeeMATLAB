@@ -1,0 +1,107 @@
+  function [isValid, message] = validateWord(word, centerLetter, availableLetters, wordList, themeWords, usedWords)
+  %% VALIDATEWORD  Validates a player's submitted word.
+  %% INPUTS:
+  %   word             - string/char: the word the player typed
+  %   centerLetter     - char:        the mandatory center letter (1 char)
+  %   availableLetters - char array:  all 7 allowed letters, e.g. 'abcdefg'
+  %   wordList         - cell array:  full dictionary of valid English words
+  %   themeWords       - cell array:  subset of wordList matching the theme
+  %   usedWords        - cell array:  words the player already found this game
+  %
+  % OUTPUTS:
+  %%   isValid  - logical: true only if ALL checks pass
+  %%   message  - string:  feedback shown to the player
+
+      word             = lower(strtrim(word));
+      centerLetter     = lower(centerLetter(1));      % safety: only 1 char
+      availableLetters = lower(availableLetters);
+
+      isValid = false;
+
+      %% Check 1: Minimum length --> CHECK WITH TEAM. DO WE WANT TO HAVE >3 or >4? 
+      if length(word) < 4
+          message = 'Too short! Words must be at least 4 letters.';
+          return;
+      end
+
+      %% Check 2: Must contain the center letter 
+      if ~any(word == centerLetter)
+          message = sprintf('Must use the center letter "%s"!', upper(centerLetter));
+          return;
+      end
+
+      %% Check 3: Every letter must be from the available set 
+      %%    (letters CAN be reused — see checkLettersAllowed below)
+      [lettersOK, badLetter] = checkLettersAllowed(word, availableLetters);
+      if ~lettersOK
+          message = sprintf('"%s" is not one of your letters!', upper(badLetter));
+          return;
+      end
+
+      %% Check 4: Word not already used this game 
+      if ismember(word, usedWords)
+          message = 'Already found that one!';
+          return;
+      end
+
+      %% Check 5: Must be a real word (dictionary check) 
+      if ~ismember(word, wordList)
+          message = 'Not a recognized word.';
+          return;
+      end
+
+      %% Check 6: Must match the theme
+      if ~ismember(word, themeWords)
+          message = 'Doesn''t fit the theme — try again!';
+          return;
+      end
+
+      %% All checks passed 
+      isValid = true;
+      message = 'Nice word!'; %% CHECK WITH TEAM WHAT WOULD BE MORE APPROPRIATE WITH THE THEME 
+  end
+
+  %% checkLettersAllowed.m — Letter Reuse Logic
+  %% key helper. every letter in the word must appear somewhere in the 7-letter set,
+  %%not that each letter can only be used once.
+
+  function [allAllowed, firstBadLetter] = checkLettersAllowed(word, availableLetters)
+  % CHECKLETTERSALLOWED  Checks that every letter in WORD is in AVAILABLELETTERS.
+  %                      Letters may be reused any number of times.
+  
+  %% INPUTS:
+  %   word             - char array: the word to check (already lowercased)
+  %   availableLetters - char array: the 7 allowed letters (already lowercased)
+  % OUTPUTS:
+  %%   allAllowed     - logical: true if every letter in word is available
+  %%   firstBadLetter - char:    the first illegal letter found ('' if none)
+
+      allAllowed     = true;
+      firstBadLetter = '';
+
+      for i = 1:length(word)
+          letter = word(i);
+
+          %% ismember on chars checks if letter is anywhere in availableLetters
+          %% This allows the same letter to appear multiple times in word
+          if ~ismember(letter, availableLetters)
+              allAllowed     = false;
+              firstBadLetter = letter;
+              return;                  % stop at first bad letter
+          end
+      end
+  end
+
+  % this is where the variable names will go 
+  [valid, feedback] = validateWord( ...
+    
+  );
+
+  if valid
+      usedWords{end+1} = lower(strtrim(playerInput));  % add to found list
+      %% update score, bee shape, etc.
+  else
+      penaltyCount = penaltyCount + 1;   % trigger hangman penalty
+  end
+
+%% THIS IS WHERE THE UI COMPONENTS WILL GO
