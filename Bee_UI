@@ -1,0 +1,27 @@
+
+%% PROPERTIES — UI containers and components
+%% All handles stored here so callbacks can reach them
+
+  %% bee design with go here 
+
+  %% rules would go here 
+
+  %% Word input area  
+
+  %% Hex letter grid 
+
+  %% Feedback bar
+
+  %% Found words list
+
+end
+
+
+%% game would go here i suppose 
+
+%% UI CONSTRUCTION
+    %% All sizing/positioning here, zero game logic
+
+
+%% apply colors and themes
+
