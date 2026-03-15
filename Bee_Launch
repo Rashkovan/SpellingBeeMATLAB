@@ -1,0 +1,69 @@
+%% space to launch the game from 
+
+%% UI Component 
+
+%% callback and gamestate 
+
+    function initState(fig)
+        gs.currentWord  = '';           % letters typed so far
+        gs.foundWords   = {};           % cell array of accepted words
+        gs.score        = 0;
+        gs.penalties    = 0;
+        gs.gameOver     = false;
+
+%% WORD VALIDATION GOES HERE 
+ 
+%% SCORING GOES HERE 
+ 
+        % Seed the theme label now that state exists
+        findobj(fig,'Tag','LblTheme').Text = gs.theme;
+    end
+ 
+    function gs = getGameState(fig),  gs = fig.UserData;          end
+    function setGameState(fig, gs),   fig.UserData = gs;          end
+
+%% DRAWING STUBS UI GOES HERE 
+
+%% MEAT OF THE GAME HERE 
+
+%%  GAME LOGIC HELPERS    function gs = applyPenalty(fig, gs)
+    % Increment penalty counter, refresh bee, check loss condition.
+        gs.penalties = gs.penalties + 1;
+        setGameState(fig, gs);
+        findobj(fig,'Tag','LblPenalty').Text = ...
+            sprintf('Penalties: %d / %d', gs.penalties, MAX_PENALTIES);
+        updateBeeState(fig, gs.penalties);
+        if gs.penalties >= MAX_PENALTIES
+            gs.gameOver = true;
+            setGameState(fig, gs);
+            showEndScreen(fig, 'loss');
+        end
+    end
+
+%% POINTS FUNCTION 
+
+%% WORD VALIDATION HERE 
+
+%%  UI REFRESH HELPERS
+
+%% Win or loss summary
+
+%% RESTART GAME 
+function restartGame(fig, dlg)
+    % Wipe state and redraw — same as a fresh SpellingBee() call.
+        close(dlg);
+        initState(fig);
+        ax = findobj(fig, 'Tag', 'AxesHex');
+        cla(ax);
+        drawHexGrid(fig);
+        drawBee(fig);
+        gs = getGameState(fig);
+        refreshScore(fig, gs);
+        refreshWordList(fig, gs);
+        findobj(fig,'Tag','FieldWord').Value     = '';
+        findobj(fig,'Tag','LblFeedback').Text    = '';
+        findobj(fig,'Tag','LblPenalty').Text     = 'Penalties: 0 / 5';
+        findobj(fig,'Tag','LblBeeStatus').Text   = 'Your bee is thriving!';
+    end
+ 
+end  
