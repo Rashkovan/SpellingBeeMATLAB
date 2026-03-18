@@ -1,4 +1,6 @@
-%% WORD validation 
+%% WORD validation ]
+% this file should store only validateWord and checkLettersAllowed helpers. 
+
 function [isValid, message] = validateWord(word, centerLetter, availableLetters, wordList, themeWords, usedWords)
   % VALIDATEWORD  Validates a player's submitted word.
   %
@@ -12,12 +14,20 @@ function [isValid, message] = validateWord(word, centerLetter, availableLetters,
   % OUTPUTS:
   %   isValid: true only if ALL checks pass
   %   message:  feedback shown to the player
+  % CHECKS (in order — first failure exits early):
+    %  Minimum 4 letters
+    %  Contains the center letter
+    %  Only uses letters from the available set (repeats allowed)
+    %  Not already used this game
+    %  Is a real word (in wordList)
+    %  Matches the theme (in themeWords)
 
-      word             = lower(strtrim(word));
-      centerLetter     = lower(centerLetter(1));
-      availableLetters = lower(availableLetters);
+    % normalize to case-sensitive 
+    word             = lower(strtrim(word));
+    centerLetter     = lower(centerLetter(1));   % guard against multi-char input
+    availableLetters = lower(availableLetters);
 
-      isValid = false;
+    isValid = false;
 
       % Minimum length (>= 4 letters)
       if length(word) < 4
@@ -38,112 +48,54 @@ function [isValid, message] = validateWord(word, centerLetter, availableLetters,
           return;
       end
 
-      % Word not already used this game
-      if ismember(word, usedWords)
-          message = 'Already found that one!';
-          return;
-      end
+      % Every letter must come from the available set (reuse is fine)
+       [lettersOK, badLetter] = checkLettersAllowed(word, availableLetters);
+    if ~lettersOK
+        message = sprintf('"%s" is not one of your letters!', upper(badLetter));
+        return
+    end
 
       % Must be a real word
       if ~ismember(word, wordList)
-          message = 'Not a recognized word.';
-          return;
-      end
+        message = 'Not a recognized word.';
+        return
+    end
 
       % Must match the theme
-      if ~ismember(word, themeWords)
-          message = 'Doesn''t fit the theme — try again!';
-          return;
-      end
+if ~ismember(word, themeWords)
+        message = 'Doesn''t fit the theme — try again!';
+        return
+    end
 
-      isValid = true;
-      message = 'Nice word!';
-  end
+    % All checks passed
+    isValid = true;
+    message = 'Nice word!';
+ 
+end
 
-  % checkLettersAllowed — Letter Reuse Logic
-  % key helper. every letter in the word must appear somewhere in the 7-letter set,
-  % letter can be used more than once.
+%% checkLettersAllowed 
+% every letter in the word must appear somewhere in the 7-letter set,
+% letter can be used more than once.
 
-allAllowed     = true;
-      firstBadLetter = '';
-
-      for i = 1:length(word)
-          letter = word(i);
-          if ~ismember(letter, availableLetters)
-              allAllowed     = false;
-              firstBadLetter = letter;
-              return;
-          end
-      end
-  end
-
-  %% HAMSTER puzzle 
-  % Letters : S M T A R E H
-  % Center  : A (mandatory)
-  % Rule    : minimum 4 letters, word must contain A, only use SMTAREH
-  %
-  % OUTPUT:
-  %   puzzle.availableLetters  smtareh'
-  %   puzzle.centerLetter     'a'
-  %   puzzle.pangram    'hamster'
-  %   puzzle.themeWords        - cell array of all valid words
-  %   puzzle.wordPoints        - containers.Map of word -> point value
+% INPUTS:
+%   word           
+%   availableLetters
+% OUTPUTS:
+%   allAllowed     : true if every letter in word is in availableLetters
+%   firstBadLetter : the first offending character ('' if allAllowed)
 
 function [allAllowed, firstBadLetter] = checkLettersAllowed(word, availableLetters)
- puzzle.availableLetters = 'smtareh';
-      puzzle.centerLetter     = 'a';
-      puzzle.pangram          = 'hamster';
-% excluded words: 
-% - sub-4 letters
-% - no central A 
-
-% 4 letter words 
-fourLetters = { ...
-          'ears',  'east',  'eats',  'eras', ...
-          'hams',  'hare',  'hart',  'hate', ...
-          'hats',  'hear',  'heat',  'mare', ...
-          'mars',  'mart',  'mash',  'mast', ...
-          'math',  'mate',  'meat',  'rame', ...
-          'rash',  'rate',  'rats',  'rhea', ...
-          'same',  'seam',  'sear',  'seat', ...
-          'star',  'tame',  'team',  'tear' ...
-      };
-% 5-letter words
- fiveLetters = { ...
-          'earth',  'harem',  'harts',  'hater', ...
-          'hates',  'hears',  'heart',  'heats', ...
-          'mares',  'maths',  'mater',  'mates', ...
-          'meats',  'ramet',  'rates',  'rheas', ...
-          'share',  'shear',  'smart',  'smear', ...
-          'stare',  'steam',  'tamer',  'tames', ...
-          'teams'  ...
-      };
-% 6-letter words 
-sixLetters = { ...
-          'earths',  'harems',  'haters',  'hearts', ...
-          'maters',  'ramets',  'stream',  'tamers' , 'master'...
-      };
-% 7-letter words 
-  sevenLetters = { ...
-          'hamster',  'mathers',  ...
-      };
-   puzzle.themeWords = [ ...
-          fourLetters, fiveLetters, sixLetters, sevenLetters ...
-      ];
-
-
-
-      allAllowed     = true;
-      firstBadLetter = '';
-
-      for i = 1:length(word)
-          letter = word(i);
-
-          %% allows the same letter to appear multiple times in word
-          if ~ismember(letter, availableLetters)
-              allAllowed     = false;
-              firstBadLetter = letter;
-              return;                  % stop at first bad letter
-          end
-      end
-  end 
+ 
+    allAllowed     = true;
+    firstBadLetter = '';
+ 
+    for i = 1:length(word)
+        letter = word(i);
+        if ~ismember(letter, availableLetters)
+            allAllowed     = false;
+            firstBadLetter = letter;
+            return   % stop at first bad letter
+        end
+    end
+ 
+end
