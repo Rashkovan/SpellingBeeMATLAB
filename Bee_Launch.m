@@ -80,9 +80,9 @@ classdef Bee_Launch < matlab.apps.AppBase
 
             app.updateBeeImage();
 
-            app.blankbee.ImageSource = fullfile(pathToApp, 'bee1.png');
+            app.blankbee.ImageSource = 'bee1.png'
 
-            app.wordwheel.ImageSource = fullfile(pathToApp, 'word wheel.png');
+            app.wordwheel.ImageSource = 'word wheel1.png'
 
             % Seed theme label
             app.AnimalsLabel.Text = 'Animals';   % TODO: pull from puzzle
