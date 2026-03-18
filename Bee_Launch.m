@@ -318,7 +318,7 @@ classdef Bee_Launch < matlab.apps.AppBase
             elseif pct >= 0.1
                 app.blankbee.ImageSource = 'bee2.png';
             else
-                app.blankbee.ImageSource = 'spelling bee clear.png';
+                app.blankbee.ImageSource = 'bee1.png';
             end
         end
 
@@ -377,7 +377,7 @@ classdef Bee_Launch < matlab.apps.AppBase
             % Word wheel 
             app.wordwheel = uiimage(app.UIFigure, ...
                 'Position', [188 92 278 244], ...
-                'ImageSource', fullfile(pathToMLAPP, 'word wheel.png'));
+                'ImageSource', fullfile(pathToMLAPP, 'word wheel1.png'));
 
             % Words found list 
             app.WordsFoundLabel = uilabel(app.UIFigure, ...
