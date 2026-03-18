@@ -147,18 +147,3 @@ sixLetters = { ...
           end
       end
   end 
-
-
-%% game start here 
-
-%% UI here 
-
-  if valid
-      w                = lower(strtrim(playerInput));
-      usedWords{end+1} = w;
-      score            = score + puzzle.wordPoints(w);
-      % update bee shape, score label, found-words list
-  else
-      penalties = penalties + 1;
-      % trigger hangman step, show feedback message
-  end
