@@ -48,14 +48,5 @@ function puzzle = loadPuzzle()
     puzzle.themeWords = [ ...
         fourLetters, fiveLetters, sixLetters, sevenLetters ...
     ];
- 
-    % Build wordPoints map 
-    % SpellingBee.m uses:  pts = puzzle.wordPoints(word)
-    puzzle.wordPoints = containers.Map('KeyType', 'char', 'ValueType', 'double');
- 
-    for i = 1:length(puzzle.themeWords)
-        w = puzzle.themeWords{i};
-        puzzle.wordPoints(w) = computePoints(w, puzzle.pangram);
-    end
- 
+
 end
