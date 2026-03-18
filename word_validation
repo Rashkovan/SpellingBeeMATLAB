@@ -24,7 +24,7 @@ function [isValid, message] = validateWord(word, centerLetter, availableLetters,
 
     % normalize to case-sensitive 
     word             = lower(strtrim(word));
-    centerLetter     = lower(centerLetter(1));   % guard against multi-char input
+    centerLetter     = lower(centerLetter(1));   
     availableLetters = lower(availableLetters);
 
     isValid = false;
@@ -52,6 +52,12 @@ function [isValid, message] = validateWord(word, centerLetter, availableLetters,
        [lettersOK, badLetter] = checkLettersAllowed(word, availableLetters);
     if ~lettersOK
         message = sprintf('"%s" is not one of your letters!', upper(badLetter));
+        return
+    end
+
+% used in the game already 
+if ismember(word, usedWords)
+        message = 'Already found that one!';
         return
     end
 
