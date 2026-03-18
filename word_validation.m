@@ -1,19 +1,19 @@
-%% WORD validation ]
+% WORD validation
 % this file should store only validateWord and checkLettersAllowed helpers. 
 
 function [isValid, message] = validateWord(word, centerLetter, availableLetters, wordList, themeWords, usedWords)
   % VALIDATEWORD  Validates a player's submitted word.
   %
   % INPUTS:
-  %   word: the word the player typed
-  %   centerLetter: the mandatory center letter (1 char)
-  %   availableLetters: all 7 allowed letters, e.g. 'smtareh'
-  %   wordList: full dictionary of valid words
-  %   themeWords: subset matching the theme
-  %   usedWords: words already found this game
+  %   word  the word the player typed
+  %   centerLetter  the mandatory center letter (1 char)
+  %   availableLetters  all 7 allowed letters, e.g. 'smtareh'
+  %   wordList full dictionary of valid words
+  %   themeWords subset matching the theme
+  %   usedWords words already found this game
   % OUTPUTS:
-  %   isValid: true only if ALL checks pass
-  %   message:  feedback shown to the player
+  %   isValid true only if ALL checks pass
+  %   message feedback shown to the player
   % CHECKS (in order — first failure exits early):
     %  Minimum 4 letters
     %  Contains the center letter
@@ -83,12 +83,12 @@ end
 % every letter in the word must appear somewhere in the 7-letter set,
 % letter can be used more than once.
 
-% INPUTS:
+% INPUTS
 %   word           
 %   availableLetters
-% OUTPUTS:
-%   allAllowed     : true if every letter in word is in availableLetters
-%   firstBadLetter : the first offending character ('' if allAllowed)
+% OUTPUTS
+% allAllowed    true if every letter in word is in availableLetters
+% firstBadLetter the first offending character ('' if allAllowed)
 
 function [allAllowed, firstBadLetter] = checkLettersAllowed(word, availableLetters)
  
