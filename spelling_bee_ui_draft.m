@@ -16,6 +16,9 @@ classdef spelling_bee_ui_draft < matlab.apps.AppBase
         SCORELabel           matlab.ui.control.Label
         inputfield           matlab.ui.control.EditField
         GUESSEditFieldLabel  matlab.ui.control.Label
+        win_lose_screen      matlab.ui.container.Panel
+        replaybutton         matlab.ui.control.Button
+        endgraphic           matlab.ui.control.Image %NEW - graphics for win/lose and replay button
     end
 
 %perhaps edit this? this initializes variables not sure if already done in code    
@@ -36,6 +39,7 @@ classdef spelling_bee_ui_draft < matlab.apps.AppBase
 
             app.scorecounter.Text = num2str(app.Score);
             app.strikecounter.Text = num2str(app.Penalties);
+            app.win_lose_screen.Visible = 'off'; % --- NEW: Hide the game over screen at start
 
             %will need to also add the same code whenever a penalty or
             %point is added to update the image
@@ -198,6 +202,26 @@ classdef spelling_bee_ui_draft < matlab.apps.AppBase
             app.shufflebutton.Icon = fullfile(pathToMLAPP, 'shuffle button.png');
             app.shufflebutton.Position = [145 21 63 57];
             app.shufflebutton.Text = '';
+
+             % Win/lose screen ---NEW
+            app.win_lose_screen = uipanel(app.UIFigure);
+            app.win_lose_screen.BorderColor = [0 0 0];
+            app.win_lose_screen.HighlightColor = [0 0 0];
+            app.win_lose_screen.Visible = 'off';
+            app.win_lose_screen.Position = [194 81 267 264];
+
+            % Win/lose graphic ---NEW
+            app.endgraphic = uiimage(app.win_lose_screen);
+            app.endgraphic.Position = [-37 2 341 259];
+            app.endgraphic.ImageSource = fullfile(pathToMLAPP, 'win.png');
+
+            % Replay button ---NEW
+            app.replaybutton = uibutton(app.win_lose_screen, 'push');
+            app.replaybutton.Icon = fullfile(pathToMLAPP, 'playagain.png');
+            app.replaybutton.IconAlignment = 'bottom';
+            app.replaybutton.BackgroundColor = [1 0.8706 0.349];
+            app.replaybutton.Position = [58 35 153 63];
+            app.replaybutton.Text = '';
 
             % Show the figure after all components are created
             app.UIFigure.Visible = 'on';
