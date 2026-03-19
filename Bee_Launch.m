@@ -43,6 +43,10 @@ classdef Bee_Launch < matlab.apps.AppBase
         WordsListBox        matlab.ui.control.ListBox
         % feedback bar 
         FeedbackLabel       matlab.ui.control.Label    % NEW — replaces fprintf
+        % end win/lose screen
+        win_lose_screen      matlab.ui.container.Panel
+        replaybutton         matlab.ui.control.Button
+        endgraphic           matlab.ui.control.Image %NEW - graphics for win/lose and replay button
     end
 
     % =====================================================================
@@ -72,6 +76,7 @@ classdef Bee_Launch < matlab.apps.AppBase
             app.Score   = 0;
             app.Strikes = 0;
             app.FoundWords = {};
+            app.win_lose_screen.Visible = 'off'; % --- NEW: Hide the game over screen at start
 
             app.scorecounter.Text  = '0';
             app.strikecounter.Text = '0';
@@ -134,6 +139,12 @@ classdef Bee_Launch < matlab.apps.AppBase
                     app.blankbee.ImageSource = 'bee6.png';
                     app.submitbutton.Enable  = 'off';
                     app.inputfield.Enable    = 'off';
+
+                %NEW -- show win graphics:
+                    app.replaybutton.ImageSource = 'playagain.png'
+                    app.endgraphic.ImageSource = 'win.png';
+                    app.win_lose_screen.Visible = 'on';
+                    
                 end
 
             else
@@ -148,6 +159,11 @@ classdef Bee_Launch < matlab.apps.AppBase
                     app.blankbee.ImageSource = 'bee1.png';
                     app.submitbutton.Enable  = 'off';
                     app.inputfield.Enable    = 'off';
+                    %NEW -- show lose screen:
+                    app.replaybutton.ImageSource = 'playagain.png'
+                    app.endgraphic.ImageSource = 'lose.png';
+                    app.win_lose_screen.Visible = 'on';
+                    
                 end
             end
 
@@ -161,6 +177,34 @@ classdef Bee_Launch < matlab.apps.AppBase
         function shufflebuttonButtonPushed(app, ~, ~)
             imgNum = randi([1, 7]);
             app.wordwheel.ImageSource = sprintf('word wheel%d.png', imgNum);
+        end
+
+        % -----------------------------------------------------------------
+        % NEW --- PLAY AGAIN BUTTON PUSHED
+        % -----------------------------------------------------------------
+        function replaybuttonPushed(app, ~, ~)
+            % 1. Reset Game State Data
+            app.Score   = 0;
+            app.Strikes = 0;
+            app.FoundWords = {};
+
+            % 2. Reset UI Displays
+            app.scorecounter.Text  = '0';
+            app.strikecounter.Text = '0';
+            app.WordsListBox.Items = {};
+            app.FeedbackLabel.Text = '';
+            app.inputfield.Value   = '';
+
+            % 3. Re-enable inputs
+            app.submitbutton.Enable = 'on';
+            app.inputfield.Enable   = 'on';
+
+            % 4. Reset Images (Bee and Wheel)
+            app.blankbee.ImageSource  = 'bee1.png';
+            app.wordwheel.ImageSource = 'word wheel1.png';
+
+            % 5. IMPORTANT: Hide the game over screen again
+            app.win_lose_screen.Visible = 'off';
         end
 
     end   % callbacks
@@ -417,6 +461,25 @@ classdef Bee_Launch < matlab.apps.AppBase
                 'Icon', fullfile(pathToMLAPP, 'shuffle button.png'), ...
                 'Text', '', 'Position', [130 21 63 57], ...
                 'ButtonPushedFcn', createCallbackFcn(app, @shufflebuttonButtonPushed, true));
+
+            % Win/lose screen ---NEW
+            app.win_lose_screen = uipanel(app.UIFigure);
+            app.win_lose_screen.BorderColor = [0 0 0];
+            app.win_lose_screen.HighlightColor = [0 0 0];
+            app.win_lose_screen.Position = [194 81 267 264];
+
+            % Win/lose graphic ---NEW
+            app.endgraphic = uiimage(app.win_lose_screen);
+            app.endgraphic.Position = [-37 2 341 259];
+            app.endgraphic.ImageSource = fullfile(pathToMLAPP, 'win.png');
+
+            % Replay button ---NEW
+            app.replaybutton = uibutton(app.win_lose_screen, 'push');
+            app.replaybutton.Icon = fullfile(pathToMLAPP, 'playagain.png');
+            app.replaybutton.IconAlignment = 'bottom';
+            app.replaybutton.BackgroundColor = [1 0.8706 0.349];
+            app.replaybutton.Position = [58 35 153 63];
+            app.replaybutton.Text = '';
 
             app.UIFigure.Visible = 'on';
         end
