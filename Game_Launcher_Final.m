@@ -2,7 +2,7 @@
 % Run this script (or type Game_Launcher_Final in the MATLAB command window)
 % to launch Spelling Bee.
 
-app = Bee_Launch;  %#ok<NASGU>
+app = Bee_Launch; 
 
 % make sure when launching you have all the files in one folder:
 % Bee_Launch.m
