@@ -126,7 +126,7 @@ classdef Bee_Launch < matlab.apps.AppBase
                 app.showFeedback(sprintf('%s  (+1)', msg), [0.2 0.7 0.3]);
 
                 % Check win
-                if app.Score >= app.Puzzle.maxScore
+                if app.Score >= 10
                     app.showFeedback('You reached GENIUS! You win!', [0.93 0.69 0.13]);
                     app.blankbee.ImageSource = 'bee6.png';
                     app.submitbutton.Enable  = 'off';
