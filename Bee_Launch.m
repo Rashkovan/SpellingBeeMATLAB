@@ -41,8 +41,9 @@ classdef Bee_Launch < matlab.apps.AppBase
         % word list 
         WordsFoundLabel     matlab.ui.control.Label
         WordsListBox        matlab.ui.control.ListBox
-        % feedback bar 
+        % feedback bar
         FeedbackLabel       matlab.ui.control.Label    % NEW — replaces fprintf
+        BeeProgressLabel    matlab.ui.control.Label    % shows X/10 pts hint
         % end win/lose screen
         win_lose_screen      matlab.ui.container.Panel
         replaybutton         matlab.ui.control.Button
@@ -353,25 +354,23 @@ classdef Bee_Launch < matlab.apps.AppBase
             end
         end
 
-        % UPDATED!! 
-        % updateBeeImage  — scales bee stage to actual max score
+        % updateBeeImage — 1 section per 2 pts, fully colored at 10
         function updateBeeImage(app)
-            if app.Puzzle.maxScore == 0, return, end
-            pct = app.Score / app.Puzzle.maxScore; 
-
-            if pct >= 1.0
+            s = app.Score;
+            if s >= 10
                 app.blankbee.ImageSource = 'bee6.png';
-            elseif pct >= 0.7
+            elseif s >= 8
                 app.blankbee.ImageSource = 'bee5.png';
-            elseif pct >= 0.5
+            elseif s >= 6
                 app.blankbee.ImageSource = 'bee4.png';
-            elseif pct >= 0.3
+            elseif s >= 4
                 app.blankbee.ImageSource = 'bee3.png';
-            elseif pct >= 0.1
+            elseif s >= 2
                 app.blankbee.ImageSource = 'bee2.png';
             else
                 app.blankbee.ImageSource = 'bee1.png';
             end
+            app.BeeProgressLabel.Text = sprintf('%d / 10 pts  (+2 pts colors a section)', s);
         end
 
         % showFeedback — display a message in the feedback bar
@@ -426,7 +425,15 @@ classdef Bee_Launch < matlab.apps.AppBase
                 'Position', [263 344 116 118], ...
                 'ImageSource', fullfile(pathToMLAPP, 'bee1.png'));
 
-            % Word wheel 
+            % Bee progress hint
+            app.BeeProgressLabel = uilabel(app.UIFigure, ...
+                'Text', '0 / 10 pts  (+2 pts colors a section)', ...
+                'FontName', 'Andale Mono', 'FontSize', 10, ...
+                'HorizontalAlignment', 'center', ...
+                'FontColor', [0.5 0.5 0.5], ...
+                'Position', [188 340 278 16]);
+
+            % Word wheel
             app.wordwheel = uiimage(app.UIFigure, ...
                 'Position', [188 92 278 244], ...
                 'ImageSource', fullfile(pathToMLAPP, 'word wheel1.png'));
