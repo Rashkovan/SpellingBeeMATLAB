@@ -77,7 +77,6 @@ classdef Bee_Launch < matlab.apps.AppBase
             app.Score   = 0;
             app.Strikes = 0;
             app.FoundWords = {};
-            app.win_lose_screen.Visible = 'off'; % --- NEW: Hide the game over screen at start
 
             app.scorecounter.Text  = '0';
             app.strikecounter.Text = '0';
