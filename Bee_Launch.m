@@ -472,6 +472,7 @@ classdef Bee_Launch < matlab.apps.AppBase
             app.replaybutton.BackgroundColor = [1 0.8706 0.349];
             app.replaybutton.Position = [58 35 153 63];
             app.replaybutton.Text = '';
+            app.replaybutton.ButtonPushedFcn = createCallbackFcn(app, @replaybuttonPushed, true);
 
             app.UIFigure.Visible = 'on';
         end
