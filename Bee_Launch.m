@@ -36,18 +36,18 @@ classdef Bee_Launch < matlab.apps.AppBase
         % input row 
         GUESSLabel          matlab.ui.control.Label
         inputfield          matlab.ui.control.EditField
-        submitbutton        matlab.ui.control.Button   % NEW — was missing
+        submitbutton        matlab.ui.control.Button  
         shufflebutton       matlab.ui.control.Button
         % word list 
         WordsFoundLabel     matlab.ui.control.Label
         WordsListBox        matlab.ui.control.ListBox
         % feedback bar
-        FeedbackLabel       matlab.ui.control.Label    % NEW — replaces fprintf
+        FeedbackLabel       matlab.ui.control.Label   
         BeeProgressLabel    matlab.ui.control.Label    % shows X/10 pts hint
         % end win/lose screen
         win_lose_screen      matlab.ui.container.Panel
         replaybutton         matlab.ui.control.Button
-        endgraphic           matlab.ui.control.Image %NEW - graphics for win/lose and replay button
+        endgraphic           matlab.ui.control.Image %graphics for win/lose and replay button
     end
 
     % =====================================================================
@@ -90,7 +90,7 @@ classdef Bee_Launch < matlab.apps.AppBase
             app.wordwheel.ImageSource = 'word wheel1.png'
 
             % Seed theme label
-            app.AnimalsLabel.Text = 'Animals';   % TODO: pull from puzzle
+            app.AnimalsLabel.Text = 'Animals';  
         end
 
         % -----------------------------------------------------------------
@@ -178,7 +178,7 @@ classdef Bee_Launch < matlab.apps.AppBase
         end
 
         % -----------------------------------------------------------------
-        % NEW --- PLAY AGAIN BUTTON PUSHED
+        % PLAY AGAIN BUTTON PUSHED
         % -----------------------------------------------------------------
         function replaybuttonPushed(app, ~, ~)
             % 1. Reset Game State Data
