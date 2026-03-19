@@ -134,7 +134,8 @@ classdef Bee_Launch < matlab.apps.AppBase
 
                 %NEW -- show win graphics:
                     app.win_lose_screen.Visible = 'on';
-                    app.replaybutton.ImageSource = 'playagain.png'
+                    uistack(app.win_lose_screen, 'top');
+                    app.replaybutton.ImageSource = 'playagain.png';
                     app.endgraphic.ImageSource = 'win.png';
             
                     
@@ -154,7 +155,8 @@ classdef Bee_Launch < matlab.apps.AppBase
                     app.inputfield.Enable    = 'off';
                     %NEW -- show lose screen:
                     app.win_lose_screen.Visible = 'on';
-                    app.replaybutton.ImageSource = 'playagain.png'
+                    uistack(app.win_lose_screen, 'top');
+                    app.replaybutton.ImageSource = 'playagain.png';
                     app.endgraphic.ImageSource = 'lose.png';
             
                     
