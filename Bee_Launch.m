@@ -466,6 +466,7 @@ classdef Bee_Launch < matlab.apps.AppBase
             app.win_lose_screen = uipanel(app.UIFigure);
             app.win_lose_screen.BorderColor = [0 0 0];
             app.win_lose_screen.HighlightColor = [0 0 0];
+            app.win_lose_screen.Visible = 'off';
             app.win_lose_screen.Position = [194 81 267 264];
 
             % Win/lose graphic ---NEW
