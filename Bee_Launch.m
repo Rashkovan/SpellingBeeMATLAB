@@ -197,9 +197,10 @@ classdef Bee_Launch < matlab.apps.AppBase
             app.submitbutton.Enable = 'on';
             app.inputfield.Enable   = 'on';
 
-            % 4. Reset Images (Bee and Wheel)
+            % 4. Reset Images (Bee and Wheel) and progress label
             app.blankbee.ImageSource  = 'bee1.png';
             app.wordwheel.ImageSource = 'word wheel1.png';
+            app.BeeProgressLabel.Text = '0 / 10 pts  (+2 pts colors a section)';
 
             % 5. IMPORTANT: Hide the game over screen again
             app.win_lose_screen.Visible = 'off';
