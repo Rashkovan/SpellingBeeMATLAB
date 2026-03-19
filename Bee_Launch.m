@@ -127,12 +127,8 @@ classdef Bee_Launch < matlab.apps.AppBase
                 % Refresh word list (sorted alphabetically)
                 app.WordsListBox.Items = sort(app.FoundWords);
 
-                % Show feedback with points earned
-                if all(ismember(char(app.Puzzle.pangram), char(word)))
-                    app.showFeedback(sprintf('PANGRAM! +%d points!', pts), [0.2 0.7 0.3]);
-                else
-                    app.showFeedback(sprintf('%s  (+%d)', msg, pts), [0.2 0.7 0.3]);
-                end
+                % Show feedback
+                app.showFeedback(sprintf('%s  (+1)', msg), [0.2 0.7 0.3]);
 
                 % Check win
                 if app.Score >= app.Puzzle.maxScore
@@ -258,16 +254,7 @@ classdef Bee_Launch < matlab.apps.AppBase
                 'KeyType', 'char', 'ValueType', 'double');
 
             for i = 1:length(puzzle.themeWords)
-                w = puzzle.themeWords{i};
-                if length(w) == 4
-                    pts = 1;
-                else
-                    pts = length(w);
-                end
-                if all(ismember(char(puzzle.pangram), char(w)))
-                    pts = pts + 7;
-                end
-                puzzle.wordPoints(w) = pts;
+                puzzle.wordPoints(puzzle.themeWords{i}) = 1;
             end
 
             % Max possible score: sum of all word points
@@ -340,18 +327,9 @@ classdef Bee_Launch < matlab.apps.AppBase
             end
         end
 
-        % scoreWord  (was: scoring4project.m)
-        % Scoring: 4-letter = 1pt, 5+ = 1pt per letter, pangram = +7 bonus
-        function pts = scoreWord(app, word)
-            if length(word) == 4
-                pts = 1;
-            else
-                pts = length(word);
-            end
-            % Pangram bonus: word uses every letter in the pangram
-            if all(ismember(char(app.Puzzle.pangram), char(word)))
-                pts = pts + 7;
-            end
+        % scoreWord — every word is worth 1 point
+        function pts = scoreWord(~, ~)
+            pts = 1;
         end
 
         % updateBeeImage — 1 section per 2 pts, fully colored at 10
