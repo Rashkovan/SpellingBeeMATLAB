@@ -465,6 +465,7 @@ classdef Bee_Launch < matlab.apps.AppBase
 
             % Replay button ---NEW
             app.replaybutton = uibutton(app.win_lose_screen, 'push');
+                'ButtonPushedFcn', createCallbackFcn(app, @replaybuttonPushed, true));
             app.replaybutton.Icon = fullfile(pathToMLAPP, 'playagain.png');
             app.replaybutton.IconAlignment = 'bottom';
             app.replaybutton.BackgroundColor = [1 0.8706 0.349];
