@@ -156,7 +156,7 @@ classdef Bee_Launch < matlab.apps.AppBase
                 % Check loss
                 if app.Strikes >= app.MaxStrikes
                     app.showFeedback('Too many strikes! Game over.', [0.85 0.1 0.1]);
-                    app.blankbee.ImageSource = 'bee1.png';
+                    app.blankbee.ImageSource = 'beesad.png';
                     app.submitbutton.Enable  = 'off';
                     app.inputfield.Enable    = 'off';
                     %NEW -- show lose screen:
