@@ -125,6 +125,9 @@ classdef Bee_Launch < matlab.apps.AppBase
                 % Show feedback
                 app.showFeedback(sprintf('%s  (+1)', msg), [0.2 0.7 0.3]);
 
+                % Update bee based on score (before win check so win can override)
+                app.updateBeeImage();
+
                 % Check win
                 if app.Score >= 10
                     app.showFeedback('You reached GENIUS! You win!', [0.93 0.69 0.13]);
@@ -163,7 +166,6 @@ classdef Bee_Launch < matlab.apps.AppBase
                 end
             end
 
-            app.updateBeeImage();
             app.inputfield.Value = '';   % clear input after every submit
         end
 
