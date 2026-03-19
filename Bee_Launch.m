@@ -127,7 +127,7 @@ classdef Bee_Launch < matlab.apps.AppBase
                 app.WordsListBox.Items = sort(app.FoundWords);
 
                 % Show feedback with points earned
-                if pts > app.Puzzle.wordPoints(word)
+                if all(ismember(char(app.Puzzle.pangram), char(word)))
                     app.showFeedback(sprintf('PANGRAM! +%d points!', pts), [0.2 0.7 0.3]);
                 else
                     app.showFeedback(sprintf('%s  (+%d)', msg, pts), [0.2 0.7 0.3]);
@@ -215,7 +215,7 @@ classdef Bee_Launch < matlab.apps.AppBase
     methods (Access = private)
 
         % loadPuzzleData  (from word_list_puzzle.m)
-        function puzzle = loadPuzzleData(~)
+        function puzzle = loadPuzzleData(app)
 
             puzzle.availableLetters = 'smtareh';
             puzzle.centerLetter     = 'a';
@@ -258,7 +258,15 @@ classdef Bee_Launch < matlab.apps.AppBase
 
             for i = 1:length(puzzle.themeWords)
                 w = puzzle.themeWords{i};
-                puzzle.wordPoints(w) = app.scoreWord(w);
+                if length(w) == 4
+                    pts = 1;
+                else
+                    pts = length(w);
+                end
+                if all(ismember(char(puzzle.pangram), char(w)))
+                    pts = pts + 7;
+                end
+                puzzle.wordPoints(w) = pts;
             end
 
             % Max possible score: sum of all word points
